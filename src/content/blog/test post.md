@@ -1,7 +1,7 @@
 ---
-title: Second post
+title: Test Post
 description: Lorem ipsum dolor sit amet
-pubDate: Oct 062026
+pubDate: Oct 06 2026
 heroImage: ../../assets/blog-placeholder-4.jpg
 ---
 

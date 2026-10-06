@@ -159,6 +159,7 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "test post.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -196,7 +197,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "b7ca14972c731ed9",
+  "active": "79d59d3f6007541f",
   "lastOpenFiles": [
     "second-post.md",
     "test post.md",
