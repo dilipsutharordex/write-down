@@ -1,6 +1,7 @@
 ---
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import ThemeToggle from './ThemeToggle.astro';
 ---
 
 <header>
@@ -9,6 +10,7 @@ import HeaderLink from './HeaderLink.astro';
 		<div class="nav-links">
 			<HeaderLink href="/blog">Writing</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
+			<ThemeToggle />
 		</div>
 	</nav>
 </header>
@@ -16,6 +18,7 @@ import HeaderLink from './HeaderLink.astro';
 	header {
 		padding: 0 1.5rem;
 		border-bottom: 1px solid var(--border);
+		transition: border-color 0.2s ease;
 	}
 	nav {
 		display: flex;
@@ -31,10 +34,12 @@ import HeaderLink from './HeaderLink.astro';
 		text-decoration: none;
 		color: var(--text);
 		letter-spacing: -0.02em;
+		transition: color 0.2s ease;
 	}
 	.nav-links {
 		display: flex;
 		gap: 1.5rem;
+		align-items: center;
 	}
 	.nav-links :global(a) {
 		font-size: 0.9rem;

@@ -32,6 +32,15 @@ const { title, description, image = FallbackImage } = Astro.props;
 />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Theme script - runs before page render to prevent flash -->
+<script is:inline>
+	(function() {
+		const stored = localStorage.getItem('theme');
+		const theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+		document.documentElement.setAttribute('data-theme', theme);
+	})();
+</script>
+
 <Font cssVariable="--font-atkinson" preload />
 
 <!-- Canonical URL -->

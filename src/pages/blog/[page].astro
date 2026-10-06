@@ -1,0 +1,281 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths, Page } from 'astro';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { POSTS_PER_PAGE, SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const posts = (await getCollection('blog')).sort(
+		(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+	);
+	return paginate(posts, { pageSize: POSTS_PER_PAGE });
+}) satisfies GetStaticPaths;
+
+type Props = {
+	page: Page;
+};
+
+const { page } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Writing — ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="page-header">
+				<h1>Writing</h1>
+			</section>
+			<div class="search-wrapper">
+				<input
+					type="text"
+					id="search-input"
+					placeholder="Search posts…"
+					autocomplete="off"
+					aria-label="Search blog posts"
+				/>
+				<button type="button" id="search-clear" class="search-clear" aria-label="Clear search">
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+						<line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
+					</svg>
+				</button>
+			</div>
+			<ul class="post-list" id="post-list">
+				{page.data.map((post) => (
+					<li data-title={post.data.title.toLowerCase()} data-description={post.data.description.toLowerCase()}>
+						<a href={`/blog/${post.id}/`}>
+							<div class="post-meta">
+								<span class="post-title">{post.data.title}</span>
+								<p class="post-description">{post.data.description}</p>
+							</div>
+							<span class="post-date">
+								<FormattedDate date={post.data.pubDate} />
+							</span>
+						</a>
+					</li>
+				))}
+			</ul>
+			<p class="no-results" id="no-results">No posts found</p>
+
+			{(page.lastPage > 1) && (
+				<nav class="pagination" aria-label="Pagination">
+					{page.url.prev && (
+						<a href={page.url.prev} class="pagination-link" aria-label="Previous page">
+							← Previous
+						</a>
+					)}
+					<span class="pagination-info">
+						Page {page.currentPage} of {page.lastPage}
+					</span>
+					{page.url.next && (
+						<a href={page.url.next} class="pagination-link" aria-label="Next page">
+							Next →
+						</a>
+					)}
+				</nav>
+			)}
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.page-header {
+		padding: 2rem 0 1.5rem;
+	}
+	.page-header h1 {
+		font-size: 1.75rem;
+		margin: 0;
+	}
+	.search-wrapper {
+		position: relative;
+		margin-bottom: 1.25rem;
+	}
+	.search-clear {
+		position: absolute;
+		right: 0.6rem;
+		top: 50%;
+		transform: translateY(-50%);
+		display: none;
+		align-items: center;
+		justify-content: center;
+		padding: 0.25rem;
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: var(--text-faint);
+		border-radius: 4px;
+		transition: color 0.15s;
+	}
+	.search-clear:hover {
+		color: var(--text);
+	}
+	.search-clear.visible {
+		display: flex;
+	}
+	#search-input {
+		width: 100%;
+		padding: 0.65rem 2.5rem 0.65rem 0.85rem;
+		font-family: inherit;
+		font-size: 0.95rem;
+		color: var(--text);
+		background: var(--bg);
+		border: 1px solid var(--border);
+		border-radius: 6px;
+		outline: none;
+		transition: border-color 0.2s;
+	}
+	#search-input::placeholder {
+		color: var(--text-faint);
+	}
+	#search-input:focus {
+		border-color: var(--text-muted);
+	}
+	.post-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		border-top: 1px solid var(--border);
+	}
+	.post-list li {
+		border-bottom: 1px solid var(--border);
+		max-height: 200px;
+		overflow: hidden;
+		opacity: 1;
+		transition: max-height 0.25s ease, opacity 0.2s ease, border-bottom-width 0.25s ease;
+	}
+	.post-list li.hidden {
+		max-height: 0;
+		opacity: 0;
+		border-bottom-width: 0;
+	}
+	.post-list a {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1.5rem;
+		padding: 1rem 0;
+		text-decoration: none;
+		color: var(--text);
+		transition: opacity 0.2s;
+	}
+	.post-list a:hover {
+		opacity: 0.6;
+	}
+	.post-meta {
+		flex: 1;
+		min-width: 0;
+	}
+	.post-title {
+		font-weight: 600;
+		display: block;
+	}
+	.post-description {
+		margin: 0.25rem 0 0;
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.post-date {
+		font-size: 0.85rem;
+		color: var(--text-faint);
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+	.no-results {
+		display: none;
+		padding: 0.75rem 0;
+		color: var(--text-faint);
+		font-size: 0.9rem;
+	}
+	.pagination {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 2.5rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--border);
+	}
+	.pagination-link {
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	.pagination-link:hover {
+		color: var(--text);
+	}
+	.pagination-info {
+		font-size: 0.85rem;
+		color: var(--text-faint);
+	}
+	@media (max-width: 640px) {
+		.post-list a {
+			flex-direction: column;
+			gap: 0.25rem;
+		}
+		.post-description {
+			white-space: normal;
+		}
+	}
+</style>
+
+<script>
+	const input = document.getElementById('search-input') as HTMLInputElement;
+	const clearBtn = document.getElementById('search-clear')!;
+	const items = document.querySelectorAll<HTMLLIElement>('#post-list li');
+	const noResults = document.getElementById('no-results')!;
+	const pagination = document.querySelector('.pagination');
+
+	function filterPosts() {
+		const query = input.value.toLowerCase().trim();
+		let visibleCount = 0;
+
+		clearBtn.classList.toggle('visible', query.length > 0);
+
+		items.forEach((li) => {
+			if (!query) {
+				li.classList.remove('hidden');
+				visibleCount++;
+				return;
+			}
+
+			const title = li.dataset.title || '';
+			const description = li.dataset.description || '';
+			const words = query.split(/\s+/);
+			const matches = words.every(
+				(w) => title.includes(w) || description.includes(w),
+			);
+
+			if (matches) {
+				li.classList.remove('hidden');
+				visibleCount++;
+			} else {
+				li.classList.add('hidden');
+			}
+		});
+
+		noResults.style.display = query && visibleCount === 0 ? 'block' : 'none';
+		
+		// Hide pagination when searching
+		if (pagination) {
+			pagination.style.display = query ? 'none' : 'flex';
+		}
+	}
+
+	input.addEventListener('input', filterPosts);
+
+	clearBtn.addEventListener('click', () => {
+		input.value = '';
+		filterPosts();
+		input.focus();
+	});
+</script>
