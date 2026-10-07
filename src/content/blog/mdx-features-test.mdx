@@ -1,0 +1,166 @@
+---
+title: 'Exploring MDX Features'
+description: 'A comprehensive test of MDX capabilities including components, JSX, and interactive elements'
+pubDate: 'Oct 07 2026'
+heroImage: '../../assets/blog-placeholder-3.jpg'
+---
+
+import HeaderLink from '../../components/HeaderLink.astro';
+
+# Welcome to MDX Testing
+
+This post demonstrates the powerful features of MDX, combining Markdown's simplicity with JSX's flexibility.
+
+## What Makes MDX Special?
+
+MDX allows you to:
+- Write **Markdown** content naturally
+- Embed **React/JSX components** directly
+- Use JavaScript expressions inline
+- Create interactive documentation
+
+## Interactive Components
+
+Here are some embedded Astro components:
+
+<HeaderLink href="#features" onclick="alert('Navigation clicked!')">
+	🚀 Jump to Features
+</HeaderLink>
+
+<HeaderLink href="#examples" onclick="console.log('Logged to console')">
+	📝 View Examples
+</HeaderLink>
+
+## Code Examples
+
+MDX supports all standard Markdown features, including syntax-highlighted code blocks:
+
+```javascript
+// JavaScript example
+const greeting = (name) => {
+  return `Hello, ${name}! Welcome to MDX.`;
+};
+
+console.log(greeting('Developer'));
+```
+
+```typescript
+// TypeScript example
+interface BlogPost {
+  title: string;
+  description: string;
+  pubDate: string;
+  heroImage?: string;
+}
+
+const post: BlogPost = {
+  title: 'MDX Features',
+  description: 'Testing MDX capabilities',
+  pubDate: '2026-10-07'
+};
+```
+
+## Rich Content Features {#features}
+
+### Lists and Typography
+
+**Unordered list:**
+- First item with *italic text*
+- Second item with **bold text**
+- Third item with `inline code`
+- Fourth item with [a link](https://astro.build)
+
+**Ordered list:**
+1. Step one: Install dependencies
+2. Step two: Configure MDX
+3. Step three: Create content
+4. Step four: Deploy
+
+### Blockquotes
+
+> "MDX is a powerful tool for creating interactive documentation and content-rich blogs."
+> 
+> — An MDX Enthusiast
+
+### Tables
+
+| Feature | Markdown | MDX |
+|---------|----------|-----|
+| Basic text | ✅ | ✅ |
+| Code blocks | ✅ | ✅ |
+| Components | ❌ | ✅ |
+| JSX syntax | ❌ | ✅ |
+| Interactive elements | ❌ | ✅ |
+
+## Advanced Examples {#examples}
+
+### Inline HTML/JSX
+
+You can use HTML tags directly in MDX:
+
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 8px; color: white; margin: 20px 0;">
+  <h3 style="margin-top: 0;">🎨 Custom Styled Box</h3>
+  <p>This is a custom-styled div with gradient background, demonstrating inline JSX styling.</p>
+</div>
+
+### Mathematical Expressions
+
+While not rendered by default, you can add math support:
+- Inline: E = mc²
+- Block equations with proper plugins
+
+### Emojis and Unicode
+
+MDX handles emojis naturally: 🎉 🚀 💻 ⭐ 🔥 ✨
+
+### Nested Components
+
+<HeaderLink href="#top">
+	🔼 Back to Top
+</HeaderLink>
+
+## Images
+
+![Placeholder Alt Text](../../assets/blog-placeholder-1.jpg)
+
+## Horizontal Rules
+
+Content above the line...
+
+---
+
+Content below the line...
+
+## Task Lists
+
+This is a GitHub-flavored Markdown feature that might work depending on your Markdown processor:
+
+- [x] Create MDX blog post
+- [x] Add components
+- [x] Add code examples
+- [ ] Add more interactive features
+- [ ] Test in production
+
+## Conclusion
+
+MDX bridges the gap between static Markdown and dynamic React components, making it perfect for:
+
+1. **Technical documentation** with live code examples
+2. **Interactive tutorials** with embedded widgets
+3. **Content-rich blogs** with custom components
+4. **Design systems** with live component previews
+
+<div style="background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 16px; margin: 24px 0;">
+  <strong>💡 Pro Tip:</strong> MDX is most powerful when you create reusable components for common patterns in your content.
+</div>
+
+### Additional Interactive Elements
+
+<HeaderLink href="https://docs.astro.build/en/guides/integrations-guide/mdx/" onclick="alert('Opening Astro MDX docs!')">
+	📚 Read Full MDX Documentation
+</HeaderLink>
+
+---
+
+**Published:** October 7, 2026  
+**Tags:** #MDX #Astro #WebDev #Testing
